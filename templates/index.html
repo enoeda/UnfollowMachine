@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>TwitterStats</title>
+
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <style type="text/css">
+      img {border-width: 0}
+      * {font-family:'Lucida Grande', sans-serif;}
+    </style>
+  </head>
+
+  <body>
+
+    <div>
+      <h2>Welcome to the TwitterStats webapp. (Verborreitor)</h2>
+
+      <p>
+
+      <?php if (!isset($user_data->name)) : ?>
+        <a href="./redirect.php"><img src="./images/lighter.png" alt="Sign in with Twitter"/></a>
+      <?php else : ?>
+		<div style="background-color:#E0E0E0;">
+		Conectado como: <br><br>
+		<?php echo '<img src="' . $user_data->profile_image_url . '"/> ' . $user_data->name; ?>
+		</div>
+		<br />
+		<div style="background-color:#D0D0D0;">
+
+		<?php echo "Se han recuperado " . count($timeline_data) . " tweets.<br />"; ?>
+		<?php echo "Escritos por " . count($friend_data) . " amigos (followings) distintos.<br />"; ?>
+		<?php echo "Creados desde $last_date ($date_diff).<br />"; ?>
+		</div>
+
+  	  <table>
+		<thead>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>Tweets</td>
+			<td>Replies</td>
+			<td>Retweets</td>
+			<td>Follows you</td>
+		</thead>
+		<?php $i = 0; ?>
+		<?php foreach ($friend_data as $friend) : ?>
+		<tr>
+
+			<?php echo '<td>' . ++$i . '</td>' .
+					   '<td><img src="' . $friend["profile_image_url"] . '"/></td>' .
+					   '<td><a href="http://twitter.com/' . $friend["screen_name"] . '" target="_blank">' . $friend["screen_name"] . '</a></td>' .
+					   '<td>' . $friend["name"] . ' (' . $friend["location"] . ')</td>' . 
+					   '<td>' . $friend["tweet_count"] . '</td>' . 
+					   '<td>' . $friend["reply_count"] . '</td>' . 
+					   '<td>' . $friend["retweet_count"] . '</td>' . 
+					   '<td>' . $friend["follows_you"] , '??</td>'; ?>
+
+		</tr>
+		<?php endforeach; ?>
+	  </table>
+
+      <?php endif; ?>
+
+	  </p>
+    </div>
+
+    <hr />
+
+    <p>
+      <pre>
+        <?php print_r($user_data); ?>
+      </pre>
+    </p>
+
+    <hr />
+
+    <p>
+      <pre>
+        <?php print_r($timeline_data); ?>
+      </pre>
+    </p>
+
+  </body>
+
+</html>
